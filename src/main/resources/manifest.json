@@ -1,0 +1,21 @@
+{
+  "Group": "GroupName",
+  "Name": "ModName",
+  "Version": "1.0.0",
+  "Description": "Your description",
+  "Authors": [
+    {
+      "Name": "your name"
+    },
+    {
+      "Name": "Alii"
+    }
+  ],
+  "Website": "",
+  "ServerVersion": "*",
+  "Dependencies": {},
+  "OptionalDependencies": {},
+  "DisabledByDefault": false,
+  "Main": "me.alii.FirstPlugin",
+  "IncludesAssetPack": true
+}
