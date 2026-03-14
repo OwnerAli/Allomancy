@@ -1,0 +1,23 @@
+$C = "../Common.ui";
+
+Group #GridWrapper {
+  LayoutMode: Center;
+  Padding: (Top: 25, Right: 1900, Bottom: 800);
+  Anchor: (Height: 240, Width: 240, Bottom: 16);
+
+  Group #Grid {
+    LayoutMode: Top;
+    Anchor: (Width: 150, Height: 235);
+    Padding: (Right: 20);
+
+    Group #Row0 {
+      LayoutMode: Left;
+      Anchor: (Width: 125, Height: 115);
+    }
+
+    Group #Row1 {
+      LayoutMode: Left;
+      Anchor: (Width: 125, Height: 115);
+    }
+  }
+}

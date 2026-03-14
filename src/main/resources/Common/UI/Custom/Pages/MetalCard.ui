@@ -1,0 +1,27 @@
+$C = "../Common.ui";
+
+Group #Card {
+  Anchor: (Width: 140, Height: 105, Right: 10, Bottom: 8);
+  Padding: (Top: 6, Bottom: 6, Left: 6, Right: 6);
+  LayoutMode: Top;
+
+  Group #IconWrapper {
+    Anchor: (Height: 48);
+    LayoutMode: Center;
+
+    ItemIcon #Icon {
+      Anchor: (Width: 44, Height: 44);
+    }
+  }
+
+  Label #Name {
+    Text: "";
+    Style: (FontSize: 12, TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center);
+    Anchor: (Bottom: 2);
+  }
+
+  Label #Count {
+    Text: "";
+    Style: (FontSize: 12, TextColor: #32CD32, RenderBold: true, HorizontalAlignment: Center);
+  }
+}

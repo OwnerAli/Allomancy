@@ -1,12 +1,9 @@
 {
-  "Group": "GroupName",
-  "Name": "ModName",
+  "Group": "Alii",
+  "Name": "Allomancy",
   "Version": "1.0.0",
   "Description": "Your description",
   "Authors": [
-    {
-      "Name": "your name"
-    },
     {
       "Name": "Alii"
     }
@@ -16,6 +13,6 @@
   "Dependencies": {},
   "OptionalDependencies": {},
   "DisabledByDefault": false,
-  "Main": "me.alii.FirstPlugin",
+  "Main": "me.alii.AllomancyPlugin",
   "IncludesAssetPack": true
 }

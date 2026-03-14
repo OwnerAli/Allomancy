@@ -19,7 +19,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    implementation(files("your path here"))
+    implementation(files("C:\\Users\\altur\\AppData\\Roaming\\Hytale\\install\\pre-release\\package\\game\\latest\\Server\\HytaleServer.jar"))
 
     // Lombok
     compileOnly("org.projectlombok:lombok:$lombokVersion")
@@ -35,6 +35,7 @@ tasks.test {
 
 tasks.jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    destinationDirectory.set(file("C:\\Users\\altur\\AppData\\Roaming\\Hytale\\UserData\\Mods"))
 
     from("src/main/resources")
 }

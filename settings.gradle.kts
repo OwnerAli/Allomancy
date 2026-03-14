@@ -1,1 +1,1 @@
-rootProject.name = "Hytale-Template"
+rootProject.name = "Allomancy"
