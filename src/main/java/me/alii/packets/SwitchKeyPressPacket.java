@@ -48,6 +48,7 @@ public class SwitchKeyPressPacket implements PlayerPacketFilter {
 
                 allomancer.swapPushAndPull();
                 SoundUtil.playSoundEvent2d(
+                        ref,
                         SoundEvent.getAssetMap().getIndex("SFX_Axe_Iron_Swing"),
                         SoundCategory.SFX,
                         2,

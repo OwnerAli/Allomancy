@@ -27,7 +27,5 @@ public class CoinInteraction extends SimpleInteraction {
         Ref<EntityStore> owningEntity = context.getOwningEntity();
         Player player = commandBuffer.getComponent(owningEntity, Player.getComponentType());
         if (player == null) return;
-
-        player.sendMessage(Message.raw("WORKED!"));
     }
 }

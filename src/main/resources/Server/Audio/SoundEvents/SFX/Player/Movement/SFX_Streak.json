@@ -1,0 +1,20 @@
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/random.ogg"
+      ],
+      "RandomSettings": {
+        "MinPitch": 0,
+        "MaxPitch": 2,
+        "MinVolume": -6,
+        "MaxVolume": 0
+      },
+      "StartDelay": 0,
+      "Looping": true
+    }
+  ],
+  "PreventSoundInterruption": true,
+  "Volume": 7.0,
+  "Parent": "SFX_Attn_Moderate"
+}

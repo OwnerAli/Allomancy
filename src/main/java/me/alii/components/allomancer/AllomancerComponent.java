@@ -16,6 +16,7 @@ import me.alii.AllomancyPlugin;
 import me.alii.domain.Metal;
 import me.alii.domain.abilities.push_pull.PushPullAbility;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3d;
 
 import java.util.*;
 

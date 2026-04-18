@@ -9,6 +9,10 @@ import com.hypixel.hytale.component.system.HolderSystem;
 import com.hypixel.hytale.protocol.packets.interface_.HudComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.hud.HudManager;
+import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
+import com.hypixel.hytale.server.core.modules.entitystats.asset.DefaultEntityStatTypes;
+import com.hypixel.hytale.server.core.modules.entitystats.modifier.Modifier;
+import com.hypixel.hytale.server.core.modules.entitystats.modifier.StaticModifier;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.alii.components.allomancer.AllomancerComponent;
@@ -53,13 +57,19 @@ public class AllomancerAssignSystem extends HolderSystem<EntityStore> {
 
             visibleHudComponents.forEach(hudComponent -> {
                 if (HudComponent.Reticle.equals(hudComponent) ||
-                        HudComponent.BuilderToolsLegend.equals(hudComponent)) return;
+                        HudComponent.BuilderToolsLegend.equals(hudComponent) ||
+                        HudComponent.Notifications.equals(hudComponent)) return;
                 hudManager.hideHudComponents(playerRef, hudComponent);
             });
 
             MetalHud metalHud = new MetalHud(playerRef);
             hudManager.setCustomHud(playerRef, metalHud);
             hudRegistry.register(playerRef, metalHud);
+
+            int health = DefaultEntityStatTypes.getHealth();
+            EntityStatMap statMap = holder.getComponent(EntityStatMap.getComponentType());
+            StaticModifier staticModifier = new StaticModifier(Modifier.ModifierTarget.MAX, StaticModifier.CalculationType.ADDITIVE, -99);
+            statMap.putModifier(health, "allomancer", staticModifier);
         }
     }
 
@@ -74,5 +84,9 @@ public class AllomancerAssignSystem extends HolderSystem<EntityStore> {
     @Override
     public Query<EntityStore> getQuery() {
         return PlayerRef.getComponentType();
+    }
+
+    private void addMetalHud(PlayerRef ref) {
+
     }
 }
