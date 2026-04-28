@@ -15,8 +15,10 @@ import com.hypixel.hytale.server.core.modules.entitystats.modifier.Modifier;
 import com.hypixel.hytale.server.core.modules.entitystats.modifier.StaticModifier;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import me.alii.AllomancyPlugin;
 import me.alii.components.allomancer.AllomancerComponent;
 import me.alii.domain.Metal;
+import me.alii.managers.PackageSpawnManager;
 import me.alii.ui.hud.HudRegistry;
 import me.alii.ui.hud.impl.MetalHud;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -25,6 +27,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import java.util.Set;
 
 public class AllomancerAssignSystem extends HolderSystem<EntityStore> {
+    private static PackageSpawnManager packageSpawnManager = null;
     private final HudRegistry hudRegistry;
 
     public AllomancerAssignSystem(HudRegistry hudRegistry) {
@@ -70,6 +73,10 @@ public class AllomancerAssignSystem extends HolderSystem<EntityStore> {
             EntityStatMap statMap = holder.getComponent(EntityStatMap.getComponentType());
             StaticModifier staticModifier = new StaticModifier(Modifier.ModifierTarget.MAX, StaticModifier.CalculationType.ADDITIVE, -99);
             statMap.putModifier(health, "allomancer", staticModifier);
+            if (packageSpawnManager == null) {
+                packageSpawnManager = new PackageSpawnManager(player.getWorld(), AllomancyPlugin.getInstance().getPackageConfig().get());
+                packageSpawnManager.startSpawning();
+            }
         }
     }
 

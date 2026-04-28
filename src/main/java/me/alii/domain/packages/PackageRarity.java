@@ -4,7 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum PackageRarity {
-    COMMON("Deco_Moving_Box"),
+    COMMON("Common_Package"),
+    UNCOMMON("Uncommon_Package"),
     RARE("Rare_Package");
 
     public static final PackageRarity[] VALUES = values();

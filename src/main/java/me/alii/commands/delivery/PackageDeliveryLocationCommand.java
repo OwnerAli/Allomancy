@@ -20,9 +20,9 @@ import org.joml.Vector3i;
 import java.awt.*;
 import java.util.concurrent.CompletableFuture;
 
-public class DeliveryLocationCommand extends AbstractAsyncCommand {
+public class PackageDeliveryLocationCommand extends AbstractAsyncCommand {
 
-    public DeliveryLocationCommand() {
+    public PackageDeliveryLocationCommand() {
         super("deliver", "");
         addSubCommand(new AddLocationCommand());
     }

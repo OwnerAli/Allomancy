@@ -11,8 +11,8 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.alii.AllomancyPlugin;
-import me.alii.commands.delivery.DeliveryLocationCommand;
-import me.alii.commands.delivery.PackageLocationCommand;
+import me.alii.commands.delivery.PackageDeliveryLocationCommand;
+import me.alii.commands.delivery.PackageSpawnLocationCommand;
 import me.alii.components.allomancer.AllomancerComponent;
 import me.alii.domain.ItemWeight;
 import me.alii.managers.WeightConfig;
@@ -31,8 +31,8 @@ public class AdminCommands extends AbstractPlayerCommand {
         this.allomancyPlugin = allomancyPlugin;
         addSubCommand(new ReloadCommand());
         addSubCommand(new MapCommand(allomancyPlugin));
-        addSubCommand(new DeliveryLocationCommand());
-        addSubCommand(new PackageLocationCommand());
+        addSubCommand(new PackageDeliveryLocationCommand());
+        addSubCommand(new PackageSpawnLocationCommand());
     }
 
     @Override

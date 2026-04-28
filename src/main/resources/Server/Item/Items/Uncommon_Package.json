@@ -1,10 +1,10 @@
 {
   "TranslationProperties": {
-    "Name": "Encrypted Package",
+    "Name": "Smuggled Package",
     "Description": "server.items.Deco_Moving_Box.description"
   },
   "ItemLevel": 15,
-  "Quality": "Rare",
+  "Quality": "Uncommon",
   "MaxStack": 100,
   "Icon": "Icons/ItemsGenerated/Deco_Moving_Box.png",
   "Categories": [

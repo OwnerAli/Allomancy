@@ -7,7 +7,7 @@ import lombok.Getter;
 import me.alii.AllomancyPlugin;
 import me.alii.components.packages.PackageDeliverableComponent;
 import me.alii.components.packages.PackageSpawnableComponent;
-import me.alii.systems.PackageSpawningSystem;
+import me.alii.systems.PackageSystems;
 
 @Getter
 public class DeliveryModule {
@@ -27,6 +27,6 @@ public class DeliveryModule {
                 PackageSpawnableComponent.CODEC);
         this.packageDeliverableComponentType = chunkStoreRegistry.registerComponent(PackageDeliverableComponent.class, "PackageDeliverableComponent",
                 PackageDeliverableComponent.CODEC);
-        chunkStoreRegistry.registerSystem(new PackageSpawningSystem());
+        chunkStoreRegistry.registerSystem(new PackageSystems());
     }
 }

@@ -31,7 +31,6 @@ public class SpawnUtils {
             ItemComponent itemComponent = new ItemComponent(item);
             holder.addComponent(TransformComponent.getComponentType(), transformComponent);
             holder.addComponent(ItemComponent.getComponentType(), itemComponent);
-            holder.addComponent(PickupItemComponent.getComponentType(), new PickupItemComponent());
 
             entityStore.addEntity(holder, AddReason.SPAWN);
         });
