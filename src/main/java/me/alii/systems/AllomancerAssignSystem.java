@@ -15,6 +15,7 @@ import com.hypixel.hytale.server.core.modules.entitystats.modifier.Modifier;
 import com.hypixel.hytale.server.core.modules.entitystats.modifier.StaticModifier;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import lombok.Getter;
 import me.alii.AllomancyPlugin;
 import me.alii.components.allomancer.AllomancerComponent;
 import me.alii.domain.Metal;
@@ -27,6 +28,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import java.util.Set;
 
 public class AllomancerAssignSystem extends HolderSystem<EntityStore> {
+    @Getter
     private static PackageSpawnManager packageSpawnManager = null;
     private final HudRegistry hudRegistry;
 

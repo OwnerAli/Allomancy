@@ -1,5 +1,6 @@
 package me.alii.domain;
 
+import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.codec.codecs.EnumCodec;
@@ -23,6 +24,7 @@ import java.util.List;
 public class PackageSpawnPoint {
     public static final BuilderCodec<PackageSpawnPoint> CODEC;
 
+    private String displayName;
     private Vector3d spawnPosition;
     private EnumSet<PackageRarity> rarities = EnumSet.copyOf(List.of(PackageRarity.VALUES));
 
@@ -33,6 +35,9 @@ public class PackageSpawnPoint {
                 new SetCodec<>(packageRarityEnumCodec, HashSet::new, false);
 
         CODEC = BuilderCodec.builder(PackageSpawnPoint.class, PackageSpawnPoint::new)
+                .append(new KeyedCodec<>("DisplayName", Codec.STRING),
+                        (type, value) -> type.displayName = value,
+                        (type) -> type.displayName).add()
                 .append(new KeyedCodec<>("SpawnPosition", Vector3dUtil.CODEC),
                         (type, value) -> type.spawnPosition = value,
                         (type) -> type.spawnPosition).add()

@@ -130,7 +130,7 @@ public class PushPullAbility implements MetalAbility {
                         SoundEvent.getAssetMap().getIndex("SFX_Pull"),
                 SoundCategory.SFX,
                 5,
-                0.5f,
+                1f,
                 accessor);
     }
 

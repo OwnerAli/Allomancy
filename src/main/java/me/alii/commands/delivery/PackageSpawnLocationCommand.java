@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.ParseResult;
 import com.hypixel.hytale.server.core.command.system.arguments.system.OptionalArg;
+import com.hypixel.hytale.server.core.command.system.arguments.system.RequiredArg;
 import com.hypixel.hytale.server.core.command.system.arguments.types.*;
 import com.hypixel.hytale.server.core.command.system.basecommands.CommandBase;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -25,11 +26,10 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class PackageSpawnLocationCommand extends CommandBase {
-    private final Config<PackageSpawnConfig> config;
 
     public PackageSpawnLocationCommand() {
         super("package", "");
-        this.config = AllomancyPlugin.getInstance()
+        Config<PackageSpawnConfig> config = AllomancyPlugin.getInstance()
                 .getPackageConfig();
         addSubCommand(new AddLocationCommand(config));
     }
@@ -42,6 +42,7 @@ public class PackageSpawnLocationCommand extends CommandBase {
         private static final ArgumentType<List<PackageRarity>> listArgumentType;
 
         private final Config<PackageSpawnConfig> config;
+        private final RequiredArg<String> displayName;
         private final OptionalArg<List<PackageRarity>> packageRarities;
 
         public AddLocationCommand(Config<PackageSpawnConfig> config) {
@@ -49,6 +50,7 @@ public class PackageSpawnLocationCommand extends CommandBase {
             this.config = config;
             this.packageRarities = withOptionalArg("PackageRarities", "A list of package rarities that can spawn at this point!",
                     listArgumentType);
+            displayName = withRequiredArg("displayName", "Display name of the location", ArgTypes.STRING);
         }
 
         @Override
@@ -74,9 +76,9 @@ public class PackageSpawnLocationCommand extends CommandBase {
                     rarities = List.of(PackageRarity.VALUES);
                 }
 
-                config.get().save(new PackageSpawnPoint(spawnPosition, EnumSet.copyOf(rarities)));
+                config.get().save(new PackageSpawnPoint(displayName.get(commandContext), spawnPosition, EnumSet.copyOf(rarities)));
                 config.save();
-                commandContext.sendMessage(Message.raw("Added package spawn location component for this block!").color(Color.GREEN));
+                commandContext.sendMessage(Message.raw("Added package spawn location for this block!").color(Color.GREEN));
             });
         }
 

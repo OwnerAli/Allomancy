@@ -1,0 +1,60 @@
+{
+  "ItemWeights": [
+    {
+      "ItemId": "Rock_Stone_Cobble_Beam",
+      "Weight": 60.0
+    },
+    {
+      "ItemId": "Rock_Peach_Cobble_Beam",
+      "Weight": 60.0
+    },
+    {
+      "ItemId": "Rock_Gold_Brick",
+      "Weight": 50.0
+    },
+    {
+      "ItemId": "iron_ore",
+      "Weight": 80.0
+    },
+    {
+      "ItemId": "Deco_Iron_Chains_Vertical",
+      "Weight": 60.0
+    },
+    {
+      "ItemId": "coin",
+      "Weight": 5.0
+    },
+    {
+      "ItemId": "Deco_Iron_Stack",
+      "Weight": 90.0
+    },
+    {
+      "ItemId": "Deco_Iron_Chains",
+      "Weight": 70.0
+    },
+    {
+      "ItemId": "Rock_Sandstone_White_Brick",
+      "Weight": 80.0
+    },
+    {
+      "ItemId": "Furniture_Temple_Light_Lantern",
+      "Weight": 20.0
+    },
+    {
+      "ItemId": "iron_ingot",
+      "Weight": 15.0
+    },
+    {
+      "ItemId": "Furniture_Jungle_Trapdoor",
+      "Weight": 40.0
+    },
+    {
+      "ItemId": "Rail",
+      "Weight": 30.0
+    },
+    {
+      "ItemId": "Deco_Iron_Chain_Small",
+      "Weight": 40.0
+    }
+  ]
+}

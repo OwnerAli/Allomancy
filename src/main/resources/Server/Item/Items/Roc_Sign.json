@@ -1,0 +1,72 @@
+{
+  "TranslationProperties": {
+    "Name": "Roc Sign",
+    "Description": ""
+  },
+  "Icon": "Icons/ItemsGenerated/Rock_Crystal_Green_Medium.png",
+  "PlayerAnimationsId": "Block",
+  "Interactions": {
+    "Secondary": "Lantern_Cyan"
+  },
+  "BlockType": {
+    "Material": "Solid",
+    "DrawType": "Model",
+    "Opacity": "Transparent",
+    "CustomModel": "Blocks/Roc_Sign.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/BlockTextures/texture.png",
+        "Weight": 1
+      }
+    ],
+    "Looping": true,
+    "HitboxType": "Plant_Large",
+    "Flags": {
+      "IsUsable": true
+    },
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Rocks",
+        "DropList": {}
+      }
+    },
+    "BlockParticleSetId": "Crystal",
+    "ParticleColor": "#93f4fd",
+    "BlockSoundSetId": "Crystal",
+    "Light": {
+      "Color": "#0bc"
+    },
+    "BlockEntity": {
+      "Components": {
+      }
+    },
+    "Interactions": {
+    }
+  },
+  "Tags": {
+    "Type": [
+      "Rock"
+    ],
+    "Family": [
+      "Crystal"
+    ]
+  },
+  "Recipe": {
+    "Input": [
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 10
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Workbench",
+        "Type": "Crafting",
+        "Categories": [
+          "Workbench_Tinkering"
+        ],
+        "RequiredTierLevel": 3
+      }
+    ]
+  }
+}
