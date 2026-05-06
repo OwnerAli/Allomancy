@@ -17,16 +17,18 @@ import me.alii.domain.packages.DeliveryPackage;
 import org.joml.Vector3d;
 
 import java.awt.*;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class PackageSpawnManager {
     private static final int MAX_CONCURRENT_SPAWNS = 1;
-    private static final long SPAWN_PERIOD = 10;
-    private static final TimeUnit SPAWN_TIME_UNIT = TimeUnit.SECONDS;
+    private static final long SPAWN_PERIOD_SECONDS = 300; // 5 minutes
     private static final Random random = new Random();
 
     private final World world;
@@ -34,12 +36,10 @@ public class PackageSpawnManager {
 
     @Getter
     private final List<Ref<EntityStore>> spawnedEntities = new ArrayList<>(MAX_CONCURRENT_SPAWNS);
-
-    /**
-     * Tracks the spawn points used in the previous cycle to avoid
-     * repeating the same locations back-to-back.
-     */
     private final List<SpawnPointNamePair> lastUsedSpawnPoints = new ArrayList<>();
+
+    private ScheduledFuture<?> scheduledSpawn;
+    private Instant nextSpawnTime;
 
     public PackageSpawnManager(World world, PackageSpawnConfig config) {
         this.world = world;
@@ -47,23 +47,76 @@ public class PackageSpawnManager {
     }
 
     public void startSpawning() {
-        System.out.println("Starting spawning of packages with the following pool: " + config.getSpawnPoints());
-        HytaleServer.SCHEDULED_EXECUTOR
-                .scheduleAtFixedRate(this::spawnPackages, 0L, SPAWN_PERIOD, SPAWN_TIME_UNIT);
+        scheduleNext();
+    }
+
+    public void stopSpawning() {
+        if (scheduledSpawn != null && !scheduledSpawn.isDone()) {
+            scheduledSpawn.cancel(false);
+        }
+    }
+
+    /**
+     * Immediately spawns a package and resets the timer from now.
+     */
+    public void forceSpawnNow() {
+        stopSpawning();
+        spawnPackages();
+        scheduleNext();
+    }
+
+    /**
+     * Returns how many seconds until the next spawn, or -1 if not scheduled.
+     */
+    public long getSecondsUntilNextSpawn() {
+        if (nextSpawnTime == null) return -1;
+        long seconds = Instant.now().until(nextSpawnTime, ChronoUnit.SECONDS);
+        return Math.max(0, seconds);
+    }
+
+    /**
+     * Returns a formatted string like "2m 34s" for display in-game.
+     */
+    public String getFormattedTimeUntilNextSpawn() {
+        long seconds = getSecondsUntilNextSpawn();
+        if (seconds < 0) return "Not scheduled";
+        long minutes = seconds / 60;
+        long secs = seconds % 60;
+        if (minutes > 0) return "%dm %ds".formatted(minutes, secs);
+        return "%ds".formatted(secs);
+    }
+
+    public boolean isPackageCurrentlySpawned() {
+        return !spawnedEntities.isEmpty();
+    }
+
+    private void scheduleNext() {
+        nextSpawnTime = Instant.now().plusSeconds(SPAWN_PERIOD_SECONDS);
+        scheduledSpawn = HytaleServer.SCHEDULED_EXECUTOR
+                .schedule(this::onTimerFired, SPAWN_PERIOD_SECONDS, TimeUnit.SECONDS);
+    }
+
+    private void onTimerFired() {
+        spawnPackages();
+        scheduleNext();
     }
 
     private void spawnPackages() {
-        if (!spawnedEntities.isEmpty()) return;
+        if (!spawnedEntities.isEmpty()) {
+            world.execute(() -> {
+                spawnedEntities.forEach(entity ->
+                        world.getEntityStore().getStore().removeEntity(entity, RemoveReason.REMOVE)
+                );
+                spawnedEntities.clear();
+            });
+        }
+
         List<SpawnPointNamePair> selected = selectSpawnPoints();
         selected.forEach(this::spawnPackageAt);
         lastUsedSpawnPoints.clear();
         lastUsedSpawnPoints.addAll(selected);
     }
 
-    /**
-     * Selects up to {@link #MAX_CONCURRENT_SPAWNS} spawn points, preferring
-     * points not used in the previous cycle where possible.
-     */
     private List<SpawnPointNamePair> selectSpawnPoints() {
         List<SpawnPointNamePair> allPoints = config.getSpawnPoints()
                 .stream()
@@ -71,12 +124,10 @@ public class PackageSpawnManager {
                 .toList();
 
         int count = Math.min(MAX_CONCURRENT_SPAWNS, allPoints.size());
-
         List<SpawnPointNamePair> preferred = new ArrayList<>(allPoints);
         preferred.removeAll(lastUsedSpawnPoints);
 
         List<SpawnPointNamePair> pool = preferred.size() >= count ? preferred : new ArrayList<>(allPoints);
-
         Collections.shuffle(pool, random);
         return pool.subList(0, count);
     }
@@ -85,7 +136,6 @@ public class PackageSpawnManager {
         DeliveryPackage pkg = DeliveryPackage.createPackage();
         Store<ChunkStore> store = world.getChunkStore().getStore();
 
-        // Send all players message about package spawning
         Message mainMessage = Message.raw(
                 "%s package incoming! Head to %s to grab it!".formatted(
                         pkg.packageRarity().name(),
@@ -93,22 +143,21 @@ public class PackageSpawnManager {
                 )
         ).color(Color.orange);
 
-        String itemId = pkg.packageRarity().getItemId();
         NotificationUtil.sendNotificationToUniverse(mainMessage);
 
+        String itemId = pkg.packageRarity().getItemId();
         World world = store.getExternalData().getWorld();
         Store<EntityStore> entityStore = world.getEntityStore().getStore();
         ItemStack item = new ItemStack(itemId);
 
         world.execute(() -> {
             Holder<EntityStore> holder = EntityStore.REGISTRY.newHolder();
-            TransformComponent transformComponent = new TransformComponent(spawnPoint.spawnPosition(), Rotation3f.NaN);
-            ItemComponent itemComponent = new ItemComponent(item);
-            holder.addComponent(TransformComponent.getComponentType(), transformComponent);
-            holder.addComponent(ItemComponent.getComponentType(), itemComponent);
-
-            // Add package component to be able to uniquely detect packages
-            holder.addComponent(PackageComponent.getComponentType(), new PackageComponent());
+            holder.addComponent(TransformComponent.getComponentType(),
+                    new TransformComponent(spawnPoint.spawnPosition(), Rotation3f.NaN));
+            holder.addComponent(ItemComponent.getComponentType(),
+                    new ItemComponent(item));
+            holder.addComponent(PackageComponent.getComponentType(),
+                    new PackageComponent());
 
             spawnedEntities.add(entityStore.addEntity(holder, AddReason.SPAWN));
         });
